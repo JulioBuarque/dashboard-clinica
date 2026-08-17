@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard Atendimento | Centro Médico</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+  <div id="tela-login" class="tela-login hidden">
+    <form id="form-login" class="caixa-login">
+      <div class="logotipo">🏥</div>
+      <h1>Painel de Atendimento</h1>
+      <p class="sub">Centro Médico · Dashboard de WhatsApp</p>
+      <input id="senha" type="password" placeholder="Digite a senha de acesso" autocomplete="current-password" required />
+      <button type="submit" class="btn primario">Entrar</button>
+      <p id="erro-login" class="erro hidden"></p>
+    </form>
+  </div>
+
+  <div id="app" class="hidden">
+    <header class="topo">
+      <div class="titulo-topo">
+        <span class="logotipo">🏥</span>
+        <div>
+          <h1>Dashboard de Atendimento</h1>
+          <p id="periodo-rotulo">Período atual</p>
+        </div>
+      </div>
+      <div class="acoes">
+        <div class="filtro-periodo">
+          <button data-dias="7" class="chip">7 dias</button>
+          <button data-dias="30" class="chip ativo">30 dias</button>
+          <button data-dias="90" class="chip">90 dias</button>
+          <button data-dias="0" class="chip">Tudo</button>
+        </div>
+        <button id="btn-sair" class="btn secundario">Sair</button>
+      </div>
+    </header>
+
+    <main>
+      <section id="cards-resumo" class="cards">
+        <div class="card kpi">
+          <span class="rotulo">Pacientes que contataram</span>
+          <span class="valor" id="kpi-contatos">–</span>
+          <span class="detalhe" id="kpi-novos-rec">–</span>
+        </div>
+        <div class="card kpi">
+          <span class="rotulo">Agendamentos no período</span>
+          <span class="valor" id="kpi-agendados">–</span>
+          <span class="detalhe" id="kpi-tipos">–</span>
+        </div>
+        <div class="card kpi">
+          <span class="rotulo">Agendados hoje</span>
+          <span class="valor" id="kpi-hoje">–</span>
+          <span class="detalhe" id="kpi-semana">–</span>
+        </div>
+        <div class="card kpi">
+          <span class="rotulo">Taxa de conversão</span>
+          <span class="valor" id="kpi-conversao">–</span>
+          <span class="detalhe">contato → agendamento</span>
+        </div>
+        <div class="card kpi">
+          <span class="rotulo">IA ativa / pausada</span>
+          <span class="valor" id="kpi-ia">–</span>
+          <span class="detalhe" id="kpi-ia-det">–</span>
+        </div>
+      </section>
+
+      <section class="grade">
+        <div class="card grafico">
+          <h2>Contatos novos por dia</h2>
+          <canvas id="grafico-contatos"></canvas>
+        </div>
+        <div class="card grafico">
+          <h2>Agendamentos por dia</h2>
+          <canvas id="grafico-agendamentos"></canvas>
+        </div>
+        <div class="card grafico">
+          <h2>Consulta × Exame</h2>
+          <canvas id="grafico-tipos"></canvas>
+        </div>
+        <div class="card grafico">
+          <h2>Agendamentos por dia da semana</h2>
+          <canvas id="grafico-semana"></canvas>
+        </div>
+        <div class="card grafico">
+          <h2>Agendamentos por horário</h2>
+          <canvas id="grafico-horas"></canvas>
+        </div>
+        <div class="card grafico" id="card-api">
+          <h2>Origem das mensagens (API)</h2>
+          <canvas id="grafico-api"></canvas>
+        </div>
+      </section>
+
+      <section class="grade-lista">
+        <div class="card">
+          <h2>Próximos agendamentos</h2>
+          <div id="lista-proximos" class="lista"></div>
+        </div>
+        <div class="card">
+          <h2>Últimos contatos</h2>
+          <div id="lista-contatos" class="lista"></div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="rodape">
+      <span id="rodape-status">Carregando…</span>
+    </footer>
+  </div>
+
+  <div id="modal" class="modal hidden">
+    <div class="modal-box">
+      <div class="modal-cabecalho">
+        <div>
+          <h2 id="modal-nome">Paciente</h2>
+          <p id="modal-sub" class="sub"></p>
+        </div>
+        <button id="fechar-modal" class="btn secundario" type="button">✕</button>
+      </div>
+      <h3>Resumo da conversa</h3>
+      <p id="modal-resumo" class="modal-resumo"></p>
+      <h3>Histórico</h3>
+      <div id="modal-historico" class="historico"></div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+services:
+  dashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      NODE_ENV: production
+      PORT: "${PORT:-3000}"
+      SUPABASE_URL: "${SUPABASE_URL}"
+      SUPABASE_SERVICE_KEY: "${SUPABASE_SERVICE_KEY}"
+      DASHBOARD_PASSWORD: "${DASHBOARD_PASSWORD}"
+      SESSION_SECRET: "${SESSION_SECRET}"
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
